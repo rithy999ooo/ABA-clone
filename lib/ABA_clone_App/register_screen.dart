@@ -48,10 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               isRed: true,
             ),
             const SizedBox(height: 20),
-            const Text(
-              "មិនទាន់មានគណនី ABA?",
-              style: TextStyle(color: Colors.white),
-            ),
+
             const SizedBox(height: 20),
             _buildABAButton(
               icon: Icons.account_balance_wallet,

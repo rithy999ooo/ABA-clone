@@ -67,7 +67,7 @@ class _FavoritesScreenState extends State<FavoritesScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: const Color.fromARGB(255, 21, 22, 32),
       body: Column(
         children: [
           _buildHeader(),
@@ -113,7 +113,7 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                 },
                 child: const Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: Color.fromARGB(255, 11, 18, 70),
                 ),
               ),
               const SizedBox(width: 10),
