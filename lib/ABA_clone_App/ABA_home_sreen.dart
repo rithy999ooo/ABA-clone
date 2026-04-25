@@ -8,6 +8,7 @@ import 'Mini_App_Page.dart';
 import 'ABA_Business_Page.dart';
 import 'Transfer_page.dart';
 import 'Favorite_Payments_Page.dart';
+import 'ProfilePage.dart';
 
 // ─── Color Palette ───────────────────────────────────────────────────────────
 const kBg = Color(0xFF0A0E1A);
@@ -124,52 +125,59 @@ class _HomeScreenState extends State<HomeScreen>
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
       child: Row(
         children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: const LinearGradient(
-                colors: [Color(0xFF1E90FF), Color(0xFF0055CC)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+          /// 👇 CLICKABLE PROFILE ICON
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfilePage()),
+              );
+            },
+            child: CircleAvatar(
+              radius: 26,
+              backgroundImage: const NetworkImage(
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTajPeGBmvhWwp9cgkPYj-aoBKq5xEARDV5QQ&s",
               ),
-              border: Border.all(color: kCyan.withOpacity(0.4), width: 2),
-            ),
-            child: const Center(
-              child: Icon(Icons.person, color: Colors.white, size: 28),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: kCyan.withOpacity(0.4), width: 2),
+                ),
+              ),
             ),
           ),
           const SizedBox(width: 14),
+
+          /// 👇 TEXT
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: const [
               Text(
-                'Hello, ',
-                style: TextStyle(
-                  color: kTextSecondary,
-                  fontSize: 13,
-                  letterSpacing: 0.3,
-                ),
+                'Hello,',
+                style: TextStyle(color: kTextSecondary, fontSize: 13),
               ),
-              const Text(
+              Text(
                 'Rithy',
                 style: TextStyle(
                   color: kTextPrimary,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  letterSpacing: 0.2,
                 ),
               ),
             ],
           ),
+
           const Spacer(),
+
+          /// 👇 ICONS
           _topIcon(Icons.chat_bubble_outline_rounded),
           const SizedBox(width: 8),
           _topIcon(Icons.notifications_none_rounded),
           const SizedBox(width: 8),
           _topIcon(Icons.account_balance_wallet_outlined),
           const SizedBox(width: 8),
+
+          /// 👇 QR ICON
           Container(
             width: 38,
             height: 38,
