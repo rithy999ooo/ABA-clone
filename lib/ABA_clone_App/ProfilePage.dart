@@ -59,7 +59,7 @@ class ProfilePage extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               const Text(
-                "Rithy",
+                "ABA_App",
                 style: TextStyle(
                   color: kTextPrimary,
                   fontSize: 18,
