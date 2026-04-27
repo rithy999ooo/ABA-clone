@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'Account_Detail_Page.dart';
 import 'Cards_Page.dart';
 import 'Payment_Page.dart';
@@ -33,11 +34,13 @@ class _ActionItem {
   });
 }
 
-class _NavItem {
-  final IconData icon;
-  final String label;
-  const _NavItem(this.icon, this.label);
-}
+// ─── Promo Banner URLs ────────────────────────────────────────────────────────
+// Replace these with your actual banner image URLs
+const List<String> kPromoImages = [
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9g7V0xwcVHU09nNcMWM7lpjt2E0QLzaTGdg&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHwpX4LVM32j8UUu-JsfhP9_gdjyGbgMQf6g&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqMGEZGYGjDiNAoMxXuw7B89Jf9Q4W8YM9PQ&s',
+];
 
 // ─── App Entry ───────────────────────────────────────────────────────────────
 class ABABankHomeScreen extends StatelessWidget {
@@ -65,7 +68,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   bool _balanceVisible = false;
-  int _selectedTab = 0;
   late AnimationController _fadeController;
   late Animation<double> _fadeAnim;
 
@@ -92,27 +94,20 @@ class _HomeScreenState extends State<HomeScreen>
       body: FadeTransition(
         opacity: _fadeAnim,
         child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      _buildTopBar(),
-                      const SizedBox(height: 16),
-                      _buildAccountCard(),
-                      const SizedBox(height: 16),
-                      _buildQuickActions(),
-                      const SizedBox(height: 16),
-                      _buildPromoSection(),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
-              ),
-              _buildBottomNav(),
-            ],
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                _buildTopBar(),
+                const SizedBox(height: 16),
+                _buildAccountCard(),
+                const SizedBox(height: 16),
+                _buildQuickActions(),
+                const SizedBox(height: 16),
+                _buildPromoSection(), // ← now properly called here
+                const SizedBox(height: 24),
+              ],
+            ),
           ),
         ),
       ),
@@ -125,18 +120,15 @@ class _HomeScreenState extends State<HomeScreen>
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
       child: Row(
         children: [
-          /// 👇 CLICKABLE PROFILE ICON
           GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilePage()),
-              );
-            },
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ProfilePage()),
+            ),
             child: CircleAvatar(
               radius: 26,
               backgroundImage: const NetworkImage(
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTajPeGBmvhWwp9cgkPYj-aoBKq5xEARDV5QQ&s",
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTajPeGBmvhWwp9cgkPYj-aoBKq5xEARDV5QQ&s',
               ),
               child: Container(
                 decoration: BoxDecoration(
@@ -147,17 +139,15 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           const SizedBox(width: 14),
-
-          /// 👇 TEXT
-          Column(
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
                 'Hello,',
                 style: TextStyle(color: kTextSecondary, fontSize: 13),
               ),
               Text(
-                'Rithy',
+                'ABAA_App',
                 style: TextStyle(
                   color: kTextPrimary,
                   fontSize: 22,
@@ -166,18 +156,13 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ],
           ),
-
           const Spacer(),
-
-          /// 👇 ICONS
           _topIcon(Icons.chat_bubble_outline_rounded),
           const SizedBox(width: 8),
           _topIcon(Icons.notifications_none_rounded),
           const SizedBox(width: 8),
           _topIcon(Icons.account_balance_wallet_outlined),
           const SizedBox(width: 8),
-
-          /// 👇 QR ICON
           Container(
             width: 38,
             height: 38,
@@ -248,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen>
                           width: 130,
                           decoration: BoxDecoration(
                             color: kCyan.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                 ),
@@ -374,7 +359,6 @@ class _HomeScreenState extends State<HomeScreen>
         label: 'គណនី',
         isCyan: true,
       ),
-
       _ActionItem(icon: Icons.credit_card_rounded, label: 'កាត', isCyan: true),
       _ActionItem(
         icon: Icons.attach_money_rounded,
@@ -454,9 +438,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── Action Tile (grid) ─────────────────────────────────────────────────────
   Widget _actionTile(_ActionItem item, int index) {
-    final bool active = item.isCyan;
     return GestureDetector(
       onTap: () {
         Widget? page;
@@ -487,23 +469,19 @@ class _HomeScreenState extends State<HomeScreen>
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          color: active ? kCyan.withOpacity(0.12) : kCardAlt,
+          color: kCyan.withOpacity(0.12),
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: active ? kCyan.withOpacity(0.4) : kDivider),
+          border: Border.all(color: kCyan.withOpacity(0.4)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              item.icon,
-              color: active ? kCyan : kCyan.withOpacity(0.8),
-              size: 28,
-            ),
+            Icon(item.icon, color: kCyan, size: 28),
             const SizedBox(height: 8),
             Text(
               item.label,
-              style: TextStyle(
-                color: active ? kCyan : kTextPrimary,
+              style: const TextStyle(
+                color: kCyan,
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
               ),
@@ -515,7 +493,6 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── Pill Action (bottom row) ───────────────────────────────────────────────
   Widget _pillAction(_ActionItem item, int index) {
     return GestureDetector(
       onTap: () {
@@ -564,153 +541,70 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // ── Promo Section ──────────────────────────────────────────────────────────
+  // ── Promo / Banner Slider ─────────────────────────────────────────────────
   Widget _buildPromoSection() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'ផំណើង & ព្រម្យូស',
-            style: TextStyle(
-              color: kTextPrimary,
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFF1A3A8F), Color(0xFF0D1F5C)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'គណនី ABA Junior',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'សុវត្ថិភាពសម្រាប់កូនៗ\nអ្នកក៏បាច់ចេះព្យករ',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.7),
-                          fontSize: 12,
-                          height: 1.5,
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: kCyan,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Text(
-                          'ស្វែងយល់បន្ថែម',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Container(
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withOpacity(0.1),
-                    border: Border.all(color: Colors.white.withOpacity(0.2)),
-                  ),
-                  child: const Icon(
-                    Icons.family_restroom_rounded,
-                    color: Colors.white,
-                    size: 44,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+      padding: const EdgeInsets.symmetric(horizontal: 0),
+      child: CarouselSlider(
+        items: kPromoImages.map((url) => _promoSlide(url)).toList(),
+        options: CarouselOptions(
+          height: 160.0,
+          enlargeCenterPage: true,
+          autoPlay: true,
+          aspectRatio: 16 / 9,
+          autoPlayCurve: Curves.fastOutSlowIn,
+          enableInfiniteScroll: true,
+          autoPlayAnimationDuration: const Duration(milliseconds: 800),
+          viewportFraction: 0.88,
+        ),
       ),
     );
   }
 
-  // ── Bottom Navigation ──────────────────────────────────────────────────────
-  Widget _buildBottomNav() {
-    final items = [];
-
+  /// Single promo banner card using Image.network with error fallback
+  Widget _promoSlide(String url) {
     return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(items.length, (i) {
-          final selected = i == _selectedTab;
-          return GestureDetector(
-            onTap: () => setState(() => _selectedTab = i),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOutCubic,
-              padding: EdgeInsets.symmetric(
-                horizontal: selected ? 16 : 8,
-                vertical: 8,
-              ),
-              decoration: BoxDecoration(
-                color: selected ? kCyan.withOpacity(0.12) : Colors.transparent,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    items[i].icon,
-                    color: selected ? kCyan : kTextSecondary,
-                    size: selected ? 22 : 20,
-                  ),
-                  if (selected) ...[
-                    const SizedBox(width: 6),
-                    Text(
-                      items[i].label,
-                      style: const TextStyle(
-                        color: kCyan,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ],
+      margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+      decoration: BoxDecoration(
+        color: kCard,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: kDivider),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Image.network(
+        url,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        // ── shown while image is downloading ──
+        loadingBuilder: (context, child, progress) {
+          if (progress == null) return child;
+          return Container(
+            color: kCardAlt,
+            child: const Center(
+              child: CircularProgressIndicator(color: kCyan, strokeWidth: 2),
+            ),
+          );
+        },
+        // ── shown if the URL fails to load ──
+        errorBuilder: (context, error, stack) {
+          return Container(
+            color: kCardAlt,
+            child: const Center(
+              child: Icon(
+                Icons.broken_image_rounded,
+                color: kTextSecondary,
+                size: 40,
               ),
             ),
           );
-        }),
+        },
       ),
     );
   }
 }
 
 // ─── Shared AppBar ────────────────────────────────────────────────────────────
-PreferredSizeWidget _buildAppBar(
+PreferredSizeWidget buildAppBar(
   BuildContext context,
   String title,
   IconData icon,
