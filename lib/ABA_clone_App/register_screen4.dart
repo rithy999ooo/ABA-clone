@@ -26,12 +26,7 @@ class RegisterScreen4 extends StatelessWidget {
               // លុប const ចេញពីទីនេះ
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.network(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTajPeGBmvhWwp9cgkPYj-aoBKq5xEARDV5QQ&s',
-                    width: 50, // សាកល្បងដាក់ ១៥០ ឬ ២០០ ដើម្បីឱ្យសមនឹងអេក្រង់
-                  ),
-                ],
+                children: [],
               ),
             ),
             const SizedBox(height: 30),

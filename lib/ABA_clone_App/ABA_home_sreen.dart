@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_abaclone_1/ABA_clone_App/Qr_page.dart';
 import 'Account_Detail_Page.dart';
 import 'Cards_Page.dart';
 import 'Payment_Page.dart';
@@ -147,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen>
                 style: TextStyle(color: kTextSecondary, fontSize: 13),
               ),
               Text(
-                'ABAA_App',
+                'ABA_App',
                 style: TextStyle(
                   color: kTextPrimary,
                   fontSize: 22,
@@ -163,14 +164,22 @@ class _HomeScreenState extends State<HomeScreen>
           const SizedBox(width: 8),
           _topIcon(Icons.account_balance_wallet_outlined),
           const SizedBox(width: 8),
-          Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: kRed,
-              borderRadius: BorderRadius.circular(10),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const QRPage()),
+              );
+            },
+            child: Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: kRed,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(Icons.qr_code, color: Colors.white, size: 20),
             ),
-            child: const Icon(Icons.qr_code, color: Colors.white, size: 20),
           ),
         ],
       ),
@@ -277,14 +286,14 @@ class _HomeScreenState extends State<HomeScreen>
               children: [
                 _transferBtn(
                   icon: Icons.arrow_upward_rounded,
-                  label: 'ទទួលសប',
+                  label: 'ឡើង',
                   color: kGreen,
                   bgColor: kGreen.withOpacity(0.12),
                 ),
                 const SizedBox(width: 16),
                 _transferBtn(
                   icon: Icons.arrow_downward_rounded,
-                  label: 'ផ្ញើសប',
+                  label: '',
                   color: kRed,
                   bgColor: kRed.withOpacity(0.12),
                 ),
@@ -453,7 +462,7 @@ class _HomeScreenState extends State<HomeScreen>
             page = const PaymentPage();
             break;
           case 3:
-            page = const QRScanPage();
+            page = const QrScanPage();
             break;
           case 4:
             page = const FavoritePaymentsPage();
