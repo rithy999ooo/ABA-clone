@@ -293,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen>
                 const SizedBox(width: 16),
                 _transferBtn(
                   icon: Icons.arrow_downward_rounded,
-                  label: '',
+                  label: 'ចុះ',
                   color: kRed,
                   bgColor: kRed.withOpacity(0.12),
                 ),
@@ -394,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen>
     final bottomActions = [
       _ActionItem(
         icon: Icons.card_giftcard_rounded,
-        label: 'កាតូ',
+        label: 'កាត',
         isCyan: true,
       ),
       _ActionItem(icon: Icons.apps_rounded, label: 'មីនីអេប', isCyan: true),
